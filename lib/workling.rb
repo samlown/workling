@@ -116,6 +116,18 @@ module Workling
       )
     end
   end
+
+  # attempts to load the bunny synchronous amqp client
+  def self.try_load_bunny_amqp_client
+    begin
+      require 'bunny'
+    rescue Exception => e
+      raise WorklingError.new(
+        "WORKLING: couldn't find the bunny amqp client - you need it for the amqp runner. " \
+        "Install from gemcutter: gem sources -a http://gemcutter.org/ && sudo gem install bunny "
+      )
+    end
+  end
   
   #
   #  returns a config hash. reads RAILS_ROOT/config/workling.yml
