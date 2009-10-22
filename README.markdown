@@ -181,6 +181,20 @@ Then start the workling Client:
 
 You're good. 
 
+## Bunny AMQP Support
+
+tmm1's amqp client uses EventMachine to support asynchronous calls, which unfortunately [passenger](http://www.modrails.com) and standard mongrel servers do not support out the box. The lightwight [Bunny](http://github.com/celldee/bunny/) is a synchronous Ruby AMQP client and works great as a replacement for queueing requests.
+
+To use Bunny, setup workling as above, and replace the dispatcher client as follows:
+
+    Workling::Remote.dispatcher.client = Workling::Clients::BunnyAmqpClient.new
+
+This client takes advantage of bunny for queueing, and uses the normal amqp "subscribe" call using EventMachine for listening to the queue as normal:
+
+    1 ./script/workling_client start
+
+You're even better.
+
 # Using RudeQueue
 
 RudeQueue is a Starling-like Queue that runs on top of your database and requires no extra processes. Use this if you don't need very fast job processing and want to avoid managing the extra process starling requires.

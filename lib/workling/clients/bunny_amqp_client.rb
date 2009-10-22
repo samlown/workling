@@ -1,5 +1,5 @@
 require 'workling/clients/base'
-Workling.try_load_as_amqp_client
+Workling.try_load_an_amqp_client
 Workling.try_load_bunny_amqp_client
 
 #
@@ -31,7 +31,7 @@ module Workling
         begin
           @amq ||= MQ.new
         rescue
-          raise WorklingError.new("Couldn't start amqp client, if you are running this a server, ensure the server is evented, (can't think why'd you want to though!).")
+          raise WorklingError.new("Couldn't start amqp client, if you are running this a server, ensure the server is evented (can't think why you'd want to though!).")
         end
         @amq.queue(key).subscribe do |data|
           value = Marshal.load(data)
